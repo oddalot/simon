@@ -26,6 +26,12 @@ module.exports = {
     }
   },
   module: {
+    loaders: [
+      {
+          test: /\.s[a|c]ss$/,
+          loader: 'style!css!sass'
+      }
+    ],
     rules: [
       {
         test: /\.(js|vue)$/,

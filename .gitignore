@@ -56,3 +56,7 @@ jspm_packages
 # Optional REPL history
 .node_repl_history
 >>>>>>> 3c4662203307bf807ffa05497d28271c053497f9
+
+# Ignore vim files
+*.swp
+*.swo

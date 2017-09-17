@@ -1149,25 +1149,25 @@
      inkscape:connector-curvature="0"
      style="fill:#ff3e2c;fill-opacity:1;filter:url(#filter5076)"
      d="m 529.99997,126.08883 0,220.57422 a 208.13266,208.13266 0 0 1 175.75391,175.69922 l 220.08007,0 A 427.33575,427.33575 0 0 0 529.99997,126.08883 Z"
-     id="red-off" v-on:click="clickRed"
+     id="red-off" v-on:click="clickColor('red')"
      transform="matrix(0.5,0,0,0.5,249.99999,276.18113)" />
   <path
      inkscape:connector-curvature="0"
      style="fill:#12b21d;fill-opacity:1;filter:url(#filter5100)"
      d="M 469.99997,126.52829 A 427.33575,427.33575 0 0 0 74.189422,522.36227 l 220.140628,0 A 208.13266,208.13266 0 0 1 469.99997,346.60641 l 0,-220.07812 z"
-     id="green-off" v-on:click="clickGreen"
+     id="green-off" v-on:click="clickColor('green')"
      transform="matrix(0.5,0,0,0.5,249.99999,276.18113)" />
   <path
      inkscape:connector-curvature="0"
      style="fill:#ffff00;fill-opacity:1;filter:url(#filter5052)"
      d="M 74.165985,582.36227 A 427.33575,427.33575 0 0 0 469.99997,978.63571 l 0,-220.57422 A 208.13266,208.13266 0 0 1 294.24606,582.36227 l -220.080075,0 z"
-     id="yellow-off" v-on:click="clickYellow"
+     id="yellow-off" v-on:click="clickColor('yellow')"
      transform="matrix(0.5,0,0,0.5,249.99999,276.18113)" />
   <path
      inkscape:connector-curvature="0"
      style="fill:#00a2ee;fill-opacity:1;filter:url(#filter5028)"
      d="M 705.66989,582.36227 A 208.13266,208.13266 0 0 1 529.99997,758.11813 l 0,220.07812 A 427.33575,427.33575 0 0 0 925.81052,582.36227 l -220.14063,0 z"
-     id="blue-off" v-on:click="clickBlue"
+     id="blue-off" v-on:click="clickColor('blue')"
      transform="matrix(0.5,0,0,0.5,249.99999,276.18113)" />
   <g
      transform="matrix(1.1552665,0,0,1.1552665,1028.4384,456.28048)"
@@ -1233,7 +1233,7 @@
   <path
      style="fill:#262729;fill-opacity:1;filter:url(#filter5208)"
      d="m 427.43727,597.79342 c -5.11523,0 -9.23331,5.19963 -9.23331,11.6583 l 0,53.62778 c 0,6.45869 4.11808,11.65832 9.23331,11.65832 l 60.3238,0 c 5.11526,0 9.23334,-5.19963 9.23334,-11.65832 l 0,-53.62778 c 0,-6.45867 -4.11808,-11.6583 -9.23334,-11.6583 l -60.3238,0 z m 2.23814,3.49764 54.84007,0 c 4.65024,0 8.39429,4.72661 8.39429,10.59812 l 0,48.75286 c 0,5.87154 -3.74405,10.59889 -8.39429,10.59889 l -54.84007,0 c -4.65022,0 -8.3937,-4.72735 -8.3937,-10.59889 l 0,-48.75286 c 0,-5.87151 3.74348,-10.59812 8.3937,-10.59812 z"
-     id="rect4326"
+     id="on-button" v-on:click="clickOn"
      inkscape:connector-curvature="0"
      transform="matrix(0.5,0,0,0.5,249.99999,276.18113)" />
 </g>
@@ -1251,20 +1251,105 @@ export default {
       blueOn: false,
       yellowOn: false,
       msg: 'Welcome to Your Vue.js App',
+      mainSeq: [],
+      currentLength: 0,
+      currentCheckLength: 0,
+      inputAGo: false,
+      colorMap: {
+        green: 0,
+        red: 1,
+        blue: 2,
+        yellow: 3,
+      },
     };
   },
   methods: {
-    clickGreen() {
-      this.greenOn = true;
+    clickOn() {
+      this.currentLength = 0;
+      this.createMainSeq(4);
+      this.displayCurrentSeq();
     },
-    clickRed() {
-      this.redOn = true;
+    incrementGame() {
+      this.currentLength += 1;
+      if (this.currentLength >= this.mainSeq.length) {
+        this.winGame();
+      } else {
+        this.currentCheckLength = 0;
+        this.displayCurrentSeq();
+      }
     },
-    clickBlue() {
-      this.blueOn = true;
+    winGame() {
+      this.currentLength = 0;
+      this.createMainSeq(4);
     },
-    clickYellow() {
-      this.yellowOn = true;
+    loseGame() {
+      this.currentLength = 0;
+      this.createMainSeq(4);
+    },
+    clickColor(color) {
+      console.log(this.mainSeq[this.currentCheckLength]);
+      this.turnOnColor(this.colorMap[color]);
+      setTimeout(() => {
+        this.clearDisplay();
+      }, 250);
+      if (this.inputAGo) {
+        if (this.mainSeq[this.currentCheckLength] === this.colorMap[color]) {
+          this.currentCheckLength += 1;
+          if (this.currentCheckLength > this.currentLength) {
+            this.incrementGame();
+          }
+        } else {
+          this.loseGame();
+        }
+      }
+    },
+    clearDisplay() {
+      this.greenOn = false;
+      this.redOn = false;
+      this.blueOn = false;
+      this.yellowOn = false;
+    },
+    turnOnColor(color) {
+      switch (color) {
+        case 0:
+          this.greenOn = true;
+          break;
+        case 1:
+          this.redOn = true;
+          break;
+        case 2:
+          this.blueOn = true;
+          break;
+        case 3:
+          this.yellowOn = true;
+          break;
+        default:
+          break;
+      }
+    },
+    createMainSeq(gameLength) {
+      this.mainSeq = [];
+      for (let i = 0; i < gameLength; i += 1) {
+        this.mainSeq.push(Math.floor(Math.random() * (4)));
+      }
+    },
+    displayCurrentSeq() {
+      this.inputAGo = false;
+      let i = 0;
+      const displaySeqTimer = setInterval(() => {
+        this.clearDisplay();
+        if (i > this.currentLength) {
+          clearInterval(displaySeqTimer);
+          this.awaitInput();
+        }
+        if (i % 0.5 !== 0.5) {
+          this.turnOnColor(this.mainSeq[i]);
+        }
+        i += 0.5;
+      }, 600);
+    },
+    awaitInput() {
+      this.inputAGo = true;
     },
   },
 };
@@ -1300,8 +1385,12 @@ a {
   visibility: hidden;
 }
 
-#green-off, #red-off, #blue-off, #yellow-off {
+#green-off, #red-off, #blue-off, #yellow-off, #on-button {
   cursor: pointer;
+}
+
+#on-button {
+  pointer-events: bounding-box;
 }
 
 .lightOn {

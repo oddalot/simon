@@ -21,6 +21,7 @@ html {
 }
 body {
   height: 100%;
+  margin: 0;
   background:
     radial-gradient(circle at 50% 0,
          rgba(255,0,0,.5), rgba(0,255,0,0) 70.71%),
@@ -35,6 +36,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  height: 100%;
 }
 </style>

@@ -8,9 +8,7 @@
    xmlns="http://www.w3.org/2000/svg"
    version="1.1"
    id="svg2"
-   viewBox="0 0 605.19999 605.20001"
-   height="605.20001"
-   width="605.20001">
+   viewBox="0 0 605.19999 605.20001">
   <defs
      id="defs4">
     <filter
@@ -1999,6 +1997,12 @@ a {
 
 .lightOn {
   visibility: visible !important;
+}
+
+.hello {
+  max-width: 600px;
+  margin: 0 auto;
+  padding-top: 50px;
 }
 
 </style>

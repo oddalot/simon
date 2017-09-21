@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="simon">
 
 <svg
  xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -1404,7 +1404,7 @@ a {
   visibility: visible !important;
 }
 
-.hello {
+.simon {
   max-width: 600px;
   margin: 0 auto;
   padding-top: 50px;
